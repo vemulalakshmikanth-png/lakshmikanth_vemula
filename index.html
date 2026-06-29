@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lakshmikanth Vemula | Interactive Resume</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "ui-sans-serif", "system-ui", "Segoe UI", "Arial", "sans-serif"]
+          },
+          boxShadow: {
+            glow: "0 0 0 1px rgba(16, 185, 129, .28), 0 18px 55px rgba(2, 6, 23, .58)",
+            indigoGlow: "0 0 0 1px rgba(99, 102, 241, .28), 0 18px 55px rgba(15, 23, 42, .58)"
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 12% 8%, rgba(16, 185, 129, .14), transparent 28rem),
+        radial-gradient(circle at 86% 14%, rgba(99, 102, 241, .12), transparent 30rem),
+        #0f172a;
+    }
+
+    .glass-panel {
+      background: linear-gradient(135deg, rgba(30, 41, 59, .86), rgba(15, 23, 42, .74));
+      border: 1px solid rgba(148, 163, 184, .14);
+      box-shadow: 0 24px 80px rgba(2, 6, 23, .42);
+      backdrop-filter: blur(16px);
+    }
+
+    .skill-badge,
+    .project-card,
+    .timeline-card {
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background-color .22s ease;
+    }
+
+    .skill-badge:hover,
+    .skill-badge:focus-visible {
+      transform: translateY(-4px) scale(1.03);
+      border-color: rgba(16, 185, 129, .72);
+      box-shadow: 0 12px 34px rgba(16, 185, 129, .13);
+      outline: none;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(99, 102, 241, .5);
+      box-shadow: 0 22px 55px rgba(2, 6, 23, .5);
+    }
+
+    .project-card.is-hidden {
+      display: none;
+    }
+
+    .filter-btn[aria-pressed="true"] {
+      background: linear-gradient(135deg, #10b981, #4f46e5);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 14px 36px rgba(16, 185, 129, .18);
+    }
+
+    .timeline-line::before {
+      content: "";
+      position: absolute;
+      left: 1rem;
+      top: .5rem;
+      bottom: .5rem;
+      width: 1px;
+      background: linear-gradient(to bottom, rgba(16, 185, 129, .8), rgba(99, 102, 241, .65), rgba(148, 163, 184, .18));
+    }
+
+    @media (min-width: 768px) {
+      .timeline-line::before {
+        left: 50%;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-900 text-slate-100 antialiased">
+  <header class="sticky top-0 z-50 border-b border-slate-700/60 bg-slate-950/80 backdrop-blur-xl">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8" aria-label="Primary navigation">
+      <a href="#top" class="group flex items-center gap-3">
+        <span class="grid h-10 w-10 place-items-center rounded-md border border-emerald-400/40 bg-emerald-400/10 text-sm font-black text-emerald-300">LV</span>
+        <span>
+          <span class="block text-sm font-semibold tracking-wide text-white">Lakshmikanth Vemula</span>
+          <span class="block text-xs text-slate-400">Cloud Data Engineer</span>
+        </span>
+      </a>
+
+      <button id="menuToggle" class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-700 text-slate-200 transition hover:border-emerald-400 hover:text-emerald-300 md:hidden" type="button" aria-label="Open navigation" aria-expanded="false">
+        <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </button>
+
+      <div id="navMenu" class="absolute left-0 right-0 top-full hidden border-b border-slate-800 bg-slate-950 px-4 py-4 shadow-2xl md:static md:block md:border-0 md:bg-transparent md:p-0 md:shadow-none">
+        <div class="flex flex-col gap-3 text-sm font-medium text-slate-300 md:flex-row md:items-center md:gap-6">
+          <a class="transition hover:text-emerald-300" href="#summary">Summary</a>
+          <a class="transition hover:text-emerald-300" href="#skills">Skills</a>
+          <a class="transition hover:text-emerald-300" href="#experience">Experience</a>
+          <a class="transition hover:text-emerald-300" href="#projects">Projects</a>
+          <a class="rounded-md bg-emerald-500 px-4 py-2 font-semibold text-slate-950 transition hover:bg-emerald-400" href="mailto:Vemula.lakshmikanth@gmail.com">Contact</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section id="summary" class="mx-auto grid max-w-7xl gap-6 px-4 pb-12 pt-10 sm:px-6 lg:grid-cols-[1.08fr_.92fr] lg:px-8 lg:pb-18 lg:pt-16">
+      <div class="glass-panel rounded-lg p-6 sm:p-8 lg:p-10">
+        <p class="mb-4 inline-flex rounded-md border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-[.2em] text-emerald-300">Interactive Executive Resume</p>
+        <h1 class="max-w-4xl text-4xl font-black tracking-normal text-white sm:text-5xl lg:text-6xl">Cloud data engineer building governed lakehouse platforms, AI workflows, and BI-ready data products.</h1>
+        <p class="mt-6 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">
+          Results-driven Cloud Data Engineer with 9.5+ years of experience designing, developing, and maintaining scalable data architectures using Databricks, Delta Lake, AWS, SQL Server, and Microsoft BI tools. Proven record leading cloud migrations, optimizing ETL pipelines, supporting machine learning models, and mentoring engineering teams.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="mailto:Vemula.lakshmikanth@gmail.com" class="inline-flex items-center justify-center rounded-md bg-emerald-500 px-5 py-3 text-sm font-bold text-slate-950 shadow-glow transition hover:bg-emerald-400">Email Lakshmikanth</a>
+          <a href="tel:9000919358" class="inline-flex items-center justify-center rounded-md border border-indigo-400/50 px-5 py-3 text-sm font-bold text-indigo-200 transition hover:bg-indigo-400/10">Call 9000919358</a>
+        </div>
+
+        <div class="mt-8 grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
+          <div class="rounded-lg border border-slate-700/70 bg-slate-950/45 p-4">
+            <span class="block text-2xl font-black text-emerald-300">9.5+</span>
+            <span>Years in data engineering and BI</span>
+          </div>
+          <div class="rounded-lg border border-slate-700/70 bg-slate-950/45 p-4">
+            <span class="block text-2xl font-black text-indigo-300">2-5 TB</span>
+            <span>Daily data volume across 15+ sources</span>
+          </div>
+          <div class="rounded-lg border border-slate-700/70 bg-slate-950/45 p-4">
+            <span class="block text-2xl font-black text-emerald-300">40%</span>
+            <span>Processing time improvement from migration</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="grid gap-6">
+        <div class="glass-panel rounded-lg p-6">
+          <h2 class="text-sm font-bold uppercase tracking-[.18em] text-slate-400">Core Positioning</h2>
+          <div class="mt-5 space-y-4">
+            <div class="rounded-lg border border-emerald-400/25 bg-emerald-400/10 p-4">
+              <p class="text-sm font-semibold text-emerald-200">Lakehouse Architecture</p>
+              <p class="mt-1 text-sm leading-6 text-slate-300">Bronze, Silver, and Gold data layers on Databricks Delta Lake with AWS S3 and governed data access.</p>
+            </div>
+            <div class="rounded-lg border border-indigo-400/25 bg-indigo-400/10 p-4">
+              <p class="text-sm font-semibold text-indigo-200">Agentic AI Enablement</p>
+              <p class="mt-1 text-sm leading-6 text-slate-300">LangChain, LangGraph, CrewAI, Claude, OpenAI APIs, RAG pipelines, tool use, and enterprise insight automation.</p>
+            </div>
+            <div class="rounded-lg border border-slate-700 bg-slate-950/50 p-4">
+              <p class="text-sm font-semibold text-slate-100">Engineering Leadership</p>
+              <p class="mt-1 text-sm leading-6 text-slate-300">Led 5 data engineers, mentored junior developers, conducted hackathons, and partnered with business stakeholders.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-panel rounded-lg p-6">
+          <h2 class="text-sm font-bold uppercase tracking-[.18em] text-slate-400">Recognition</h2>
+          <ul class="mt-5 space-y-3 text-sm leading-6 text-slate-300">
+            <li><span class="font-semibold text-emerald-300">Star of the Month</span> - ADP Pvt Ltd. in March, June, July 2023 and January, February, March 2025.</li>
+            <li><span class="font-semibold text-indigo-300">Standing Ovation Award</span> - Tech Mahindra Ltd., March 2022.</li>
+            <li><span class="font-semibold text-emerald-300">Bravo Award</span> - Honeywell Technology Solutions, November 2019 and October 2020.</li>
+            <li><span class="font-semibold text-indigo-300">Quarterly Award</span> - SLK Software Services, Q4 2017-2018.</li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+
+    <section id="skills" class="border-y border-slate-800/80 bg-slate-950/44 py-14">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+          <div>
+            <p class="text-sm font-bold uppercase tracking-[.18em] text-emerald-300">Technical Skills</p>
+            <h2 class="mt-2 text-3xl font-black text-white sm:text-4xl">Expandable Capability Map</h2>
+          </div>
+          <p class="max-w-xl text-sm leading-6 text-slate-400">Hover or focus any badge to surface the premium interaction layer. Skills are grouped by the resume's delivery patterns across engineering, analytics, and AI.</p>
+        </div>
+
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="skill-badge rounded-lg border border-slate-700 bg-slate-900/70 p-5" tabindex="0">
+            <h3 class="font-bold text-emerald-300">Programming</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">SQL, T-SQL, PySpark, Python</p>
+          </div>
+          <div class="skill-badge rounded-lg border border-slate-700 bg-slate-900/70 p-5" tabindex="0">
+            <h3 class="font-bold text-indigo-300">Databases</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">Delta Lake, SQL Server, Oracle, PostgreSQL, Snowflake, Databricks Lakebase</p>
+          </div>
+          <div class="skill-badge rounded-lg border border-slate-700 bg-slate-900/70 p-5" tabindex="0">
+            <h3 class="font-bold text-emerald-300">Cloud &amp; Big Data</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">Databricks, AWS S3, AWS EC2, Unity Catalog, Lakehouse Architecture, Apache Spark</p>
+          </div>
+          <div class="skill-badge rounded-lg border border-slate-700 bg-slate-900/70 p-5" tabindex="0">
+            <h3 class="font-bold text-indigo-300">ETL / Pipeline</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">SSIS, Apache Spark, Jenkins, batch processing, incremental loads, basic streaming</p>
+          </div>
+          <div class="skill-badge rounded-lg border border-slate-700 bg-slate-900/70 p-5" tabindex="0">
+            <h3 class="font-bold text-emerald-300">BI / Reporting</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">SSRS, Tableau, Power BI, Excel reporting, scorecards, executive dashboards</p>
+          </div>
+          <div class="skill-badge rounded-lg border border-slate-700 bg-slate-900/70 p-5" tabindex="0">
+            <h3 class="font-bold text-indigo-300">Agentic AI</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">LangChain, LangGraph, CrewAI, Claude API, OpenAI API, multi-agent orchestration, RAG, MCP</p>
+          </div>
+          <div class="skill-badge rounded-lg border border-slate-700 bg-slate-900/70 p-5" tabindex="0">
+            <h3 class="font-bold text-emerald-300">Governance &amp; Ops</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">Unity Catalog, Databricks Secrets, SQL Server Agent, Windows Scheduler, cluster maintenance</p>
+          </div>
+          <div class="skill-badge rounded-lg border border-slate-700 bg-slate-900/70 p-5" tabindex="0">
+            <h3 class="font-bold text-indigo-300">Engineering Tools</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-300">Git, Bitbucket, GitHub Actions, Linux, Jupyter, Alation, Anomalo, Simba Spark Drivers</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+      <div class="mb-10 max-w-3xl">
+        <p class="text-sm font-bold uppercase tracking-[.18em] text-indigo-300">Professional Experience</p>
+        <h2 class="mt-2 text-3xl font-black text-white sm:text-4xl">Structured Career Timeline</h2>
+      </div>
+
+      <div class="timeline-line relative space-y-8">
+        <article class="timeline-card relative ml-10 rounded-lg border border-emerald-400/25 bg-slate-950/65 p-5 shadow-glow md:ml-0 md:w-[calc(50%-2rem)] md:p-6">
+          <span class="absolute -left-12 top-6 h-8 w-8 rounded-full border-4 border-slate-900 bg-emerald-400 md:-right-12 md:left-auto"></span>
+          <p class="text-xs font-bold uppercase tracking-[.18em] text-emerald-300">Dec 8, 2022 - Present</p>
+          <h3 class="mt-2 text-xl font-black text-white">Cloud Data Engineer (Consultant)</h3>
+          <p class="mt-1 text-sm text-slate-400">ADP Pvt Ltd. | Client Retention | Human Capital Management</p>
+          <ul class="mt-4 space-y-2 text-sm leading-6 text-slate-300">
+            <li>Designed and maintained scalable architecture processing 2-5 TB daily across 15+ data sources with Medallion Pattern layers in SQL Server, Databricks Delta Lake on AWS S3, and PostgreSQL on Databricks Lakebase.</li>
+            <li>Led legacy on-prem ETL migration to cloud-native Databricks on AWS, improving scalability and reducing processing time by 40%.</li>
+            <li>Built curated datasets for 5+ ML models including churn prediction, risk scoring, and logistic regression.</li>
+            <li>Created LangChain and multi-agent workflows with OpenAI and Anthropic Claude APIs for insight generation, summarization, and anomaly reporting.</li>
+          </ul>
+        </article>
+
+        <article class="timeline-card relative ml-10 rounded-lg border border-indigo-400/25 bg-slate-950/65 p-5 shadow-indigoGlow md:ml-auto md:w-[calc(50%-2rem)] md:p-6">
+          <span class="absolute -left-12 top-6 h-8 w-8 rounded-full border-4 border-slate-900 bg-indigo-400"></span>
+          <p class="text-xs font-bold uppercase tracking-[.18em] text-indigo-300">Jul 2, 2021 - Dec 5, 2022</p>
+          <h3 class="mt-2 text-xl font-black text-white">Sr. Software Engineer - BI Developer</h3>
+          <p class="mt-1 text-sm text-slate-400">Tech Mahindra Ltd. | BCBSLA NCCT | Health and Life Sciences</p>
+          <ul class="mt-4 space-y-2 text-sm leading-6 text-slate-300">
+            <li>Designed and developed SSIS and SQL Server ETL pipelines for large-scale healthcare claims and membership data processing.</li>
+            <li>Applied inclusion, exclusion, and outlier rules to improve cost summary accuracy.</li>
+            <li>Generated cost summary datasets used by 20+ business stakeholders across healthcare facility types.</li>
+          </ul>
+        </article>
+
+        <article class="timeline-card relative ml-10 rounded-lg border border-emerald-400/25 bg-slate-950/65 p-5 md:ml-0 md:w-[calc(50%-2rem)] md:p-6">
+          <span class="absolute -left-12 top-6 h-8 w-8 rounded-full border-4 border-slate-900 bg-emerald-400 md:-right-12 md:left-auto"></span>
+          <p class="text-xs font-bold uppercase tracking-[.18em] text-emerald-300">Jul 8, 2019 - Jul 1, 2021</p>
+          <h3 class="mt-2 text-xl font-black text-white">Data Quality Engineer</h3>
+          <p class="mt-1 text-sm text-slate-400">Honeywell Technology Solutions Pvt Ltd. | Manufacturing</p>
+          <ul class="mt-4 space-y-2 text-sm leading-6 text-slate-300">
+            <li>Implemented completeness, validity, and accuracy rules for SAP Material Master data with SSIS and SQL Server stored procedures, supporting 99% data accuracy.</li>
+            <li>Designed ETL flows from Oracle to SQL Server and generated exception metrics.</li>
+            <li>Built Tableau and Power BI dashboards, published to Tableau Server and Power BI Online.</li>
+          </ul>
+        </article>
+
+        <article class="timeline-card relative ml-10 rounded-lg border border-indigo-400/25 bg-slate-950/65 p-5 md:ml-auto md:w-[calc(50%-2rem)] md:p-6">
+          <span class="absolute -left-12 top-6 h-8 w-8 rounded-full border-4 border-slate-900 bg-indigo-400"></span>
+          <p class="text-xs font-bold uppercase tracking-[.18em] text-indigo-300">Sep 15, 2016 - Jun 30, 2019</p>
+          <h3 class="mt-2 text-xl font-black text-white">Software Engineer - BI Developer</h3>
+          <p class="mt-1 text-sm text-slate-400">SLK Software Services Pvt Ltd. | Emerson | Manufacturing</p>
+          <ul class="mt-4 space-y-2 text-sm leading-6 text-slate-300">
+            <li>Developed SSIS packages across Oracle EBS, Eloqua, CRM, Qualtrics, and SQL Server.</li>
+            <li>Automated reporting workflows and reduced manual effort by approximately 70% through dynamic report generation and scheduling.</li>
+            <li>Built SSRS reports, Tableau dashboards, and automated Excel distribution through email and SharePoint uploads.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="projects" class="border-y border-slate-800/80 bg-slate-950/44 py-14">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="text-sm font-bold uppercase tracking-[.18em] text-emerald-300">Project Gallery</p>
+            <h2 class="mt-2 text-3xl font-black text-white sm:text-4xl">Filterable Delivery Portfolio</h2>
+          </div>
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filter projects">
+            <button class="filter-btn rounded-md border border-slate-700 px-4 py-2 text-sm font-bold text-slate-200 transition hover:border-emerald-400" type="button" data-filter="all" aria-pressed="true">All</button>
+            <button class="filter-btn rounded-md border border-slate-700 px-4 py-2 text-sm font-bold text-slate-200 transition hover:border-emerald-400" type="button" data-filter="engineering" aria-pressed="false">Engineering</button>
+            <button class="filter-btn rounded-md border border-slate-700 px-4 py-2 text-sm font-bold text-slate-200 transition hover:border-emerald-400" type="button" data-filter="design" aria-pressed="false">Design</button>
+            <button class="filter-btn rounded-md border border-slate-700 px-4 py-2 text-sm font-bold text-slate-200 transition hover:border-emerald-400" type="button" data-filter="ai" aria-pressed="false">AI</button>
+            <button class="filter-btn rounded-md border border-slate-700 px-4 py-2 text-sm font-bold text-slate-200 transition hover:border-emerald-400" type="button" data-filter="bi" aria-pressed="false">BI</button>
+          </div>
+        </div>
+
+        <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <article class="project-card rounded-lg border border-slate-700 bg-slate-900/76 p-6" data-category="engineering design">
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="text-xl font-black text-white">Databricks Lakehouse Architecture</h3>
+              <span class="rounded-md bg-emerald-400/10 px-2 py-1 text-xs font-bold text-emerald-300">2-5 TB/day</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-slate-300">Designed Bronze, Silver, and Gold layers across SQL Server, Databricks Delta Lake on AWS S3, and PostgreSQL Lakebase to support client retention analytics.</p>
+            <div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-slate-300">
+              <span class="rounded-md border border-slate-700 px-2 py-1">Databricks</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">Delta Lake</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">AWS S3</span>
+            </div>
+          </article>
+
+          <article class="project-card rounded-lg border border-slate-700 bg-slate-900/76 p-6" data-category="engineering">
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="text-xl font-black text-white">Cloud ETL Migration</h3>
+              <span class="rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-bold text-indigo-300">40% faster</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-slate-300">Migrated on-prem ETL pipelines to cloud-native Databricks on AWS, improving scalability and reducing operational processing time.</p>
+            <div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-slate-300">
+              <span class="rounded-md border border-slate-700 px-2 py-1">PySpark</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">SSIS</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">Jenkins</span>
+            </div>
+          </article>
+
+          <article class="project-card rounded-lg border border-slate-700 bg-slate-900/76 p-6" data-category="ai engineering">
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="text-xl font-black text-white">Agentic Data Insight Workflows</h3>
+              <span class="rounded-md bg-emerald-400/10 px-2 py-1 text-xs font-bold text-emerald-300">Multi-agent</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-slate-300">Built LangChain and multi-agent orchestration workflows with OpenAI and Anthropic Claude APIs for automated insight generation, summarization, and anomaly reporting.</p>
+            <div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-slate-300">
+              <span class="rounded-md border border-slate-700 px-2 py-1">LangChain</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">Claude API</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">OpenAI API</span>
+            </div>
+          </article>
+
+          <article class="project-card rounded-lg border border-slate-700 bg-slate-900/76 p-6" data-category="engineering design">
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="text-xl font-black text-white">ML Feature Data Platform</h3>
+              <span class="rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-bold text-indigo-300">5+ models</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-slate-300">Delivered curated datasets for churn prediction, risk scoring, logistic regression, and analytical workloads, improving model input quality and powering an internal decision application.</p>
+            <div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-slate-300">
+              <span class="rounded-md border border-slate-700 px-2 py-1">ML Data</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">Risk Scoring</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">Client 360</span>
+            </div>
+          </article>
+
+          <article class="project-card rounded-lg border border-slate-700 bg-slate-900/76 p-6" data-category="bi design">
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="text-xl font-black text-white">Executive BI Dashboards</h3>
+              <span class="rounded-md bg-emerald-400/10 px-2 py-1 text-xs font-bold text-emerald-300">360 view</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-slate-300">Collaborated with analysts and stakeholders to deliver client-view dashboards for service, loyalty, and leadership teams using Tableau, Power BI, and governed datasets.</p>
+            <div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-slate-300">
+              <span class="rounded-md border border-slate-700 px-2 py-1">Power BI</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">Tableau</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">SSRS</span>
+            </div>
+          </article>
+
+          <article class="project-card rounded-lg border border-slate-700 bg-slate-900/76 p-6" data-category="bi engineering">
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="text-xl font-black text-white">Healthcare Cost Summary ETL</h3>
+              <span class="rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-bold text-indigo-300">20+ users</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-slate-300">Built SSIS and SQL Server pipelines for healthcare claims and membership data, applying accuracy rules and delivering decision-ready cost datasets.</p>
+            <div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold text-slate-300">
+              <span class="rounded-md border border-slate-700 px-2 py-1">SQL Server</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">SSIS</span>
+              <span class="rounded-md border border-slate-700 px-2 py-1">Healthcare</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto grid max-w-7xl gap-6 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <div class="glass-panel rounded-lg p-6">
+        <p class="text-sm font-bold uppercase tracking-[.18em] text-emerald-300">Education</p>
+        <h2 class="mt-3 text-2xl font-black text-white">Bachelor of Technology</h2>
+        <p class="mt-2 text-sm leading-6 text-slate-300">Computer Science and Engineering, Swarnandhra Institute of Engineering &amp; Technology, 2016.</p>
+      </div>
+      <div class="glass-panel rounded-lg p-6">
+        <p class="text-sm font-bold uppercase tracking-[.18em] text-indigo-300">Professional Development</p>
+        <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-300">
+          <li>Data Science in Action - Building a Predictive Churn Model from OpenSAP, December 2017.</li>
+          <li>Tableau Conference, Conrad Hotels, Bangalore, September 2018.</li>
+          <li>Certified SAFe 5 Scrum Master from Scaled Agile, Inc., October 2020.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-800 bg-slate-950/70">
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-sm text-slate-400 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+      <p>&copy; 2026 Lakshmikanth Vemula. Interactive graphical resume.</p>
+      <div class="flex flex-wrap gap-4">
+        <a class="hover:text-emerald-300" href="mailto:Vemula.lakshmikanth@gmail.com">Vemula.lakshmikanth@gmail.com</a>
+        <a class="hover:text-emerald-300" href="tel:9000919358">9000919358</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuToggle = document.querySelector("#menuToggle");
+    const navMenu = document.querySelector("#navMenu");
+    const menuIcon = document.querySelector("#menuIcon");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const projectCards = document.querySelectorAll(".project-card");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = !navMenu.classList.contains("hidden");
+      navMenu.classList.toggle("hidden", isOpen);
+      menuToggle.setAttribute("aria-expanded", String(!isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Open navigation" : "Close navigation");
+      menuIcon.innerHTML = isOpen
+        ? '<path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />'
+        : '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />';
+    });
+
+    navMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (window.matchMedia("(max-width: 767px)").matches) {
+          navMenu.classList.add("hidden");
+          menuToggle.setAttribute("aria-expanded", "false");
+          menuToggle.setAttribute("aria-label", "Open navigation");
+          menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />';
+        }
+      });
+    });
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+
+        filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+
+        projectCards.forEach((card) => {
+          const categories = card.dataset.category.split(" ");
+          const shouldShow = filter === "all" || categories.includes(filter);
+          card.classList.toggle("is-hidden", !shouldShow);
+        });
+      });
+    });
+  </script>
+  <script> window.chtlConfig = { chatbotId: "8626277388" } </script>
+  <script async data-id="8626277388" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+</body>
+</html>
